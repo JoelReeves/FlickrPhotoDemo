@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
-import net.joelreeves.flickrphotodemo.models.PhotoResponse;
 import net.joelreeves.flickrphotodemo.services.FlickrPhotoRepository;
 import net.joelreeves.flickrphotodemo.services.FlickrService;
 
@@ -28,7 +27,6 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 @Module
 public class NetworkModule {
 
-    private static final String FLICKR_BASE_URL = " https://api.flickr.com";
     private static final String NETWORK_CACHE = "network_cache";
     private static final int GLOBAL_TIMEOUT = 30; // seconds
     private static final int CACHE_SIZE = 20 * 1024 * 1024; // 20 MB
@@ -71,13 +69,13 @@ public class NetworkModule {
     }
 
     @Provides @NonNull @Singleton
-    public PhotoResponse providePhotoResponse(@NonNull OkHttpClient client, @NonNull HttpUrl url) {
+    public FlickrService providePhotoResponse(@NonNull OkHttpClient client, @NonNull HttpUrl url) {
         return new Retrofit.Builder()
                 .client(client)
-                .baseUrl(FLICKR_BASE_URL)
+                .baseUrl(url)
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build()
-                .create(PhotoResponse.class);
+                .create(FlickrService.class);
     }
 
     @Provides @NonNull @Singleton

@@ -29,10 +29,12 @@ public class Photo implements Parcelable {
     public Integer isfriend;
     @JsonProperty("isfamily")
     public Integer isfamily;
+    @JsonProperty("url_s")
+    private String url;
 
     public Photo() {}
 
-    public Photo(String id, String owner, String secret, String server, Integer farm, String title, Integer ispublic, Integer isfriend, Integer isfamily) {
+    public Photo(String id, String owner, String secret, String server, Integer farm, String title, Integer ispublic, Integer isfriend, Integer isfamily, String url) {
         this.id = id;
         this.owner = owner;
         this.secret = secret;
@@ -42,6 +44,7 @@ public class Photo implements Parcelable {
         this.ispublic = ispublic;
         this.isfriend = isfriend;
         this.isfamily = isfamily;
+        this.url = url;
     }
 
     public String getId() {
@@ -116,6 +119,14 @@ public class Photo implements Parcelable {
         this.isfamily = isfamily;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     @Override
     public String toString() {
         return "Photo{" +
@@ -128,6 +139,7 @@ public class Photo implements Parcelable {
                 ", ispublic=" + ispublic +
                 ", isfriend=" + isfriend +
                 ", isfamily=" + isfamily +
+                ", url_s=" + url +
                 '}';
     }
 
@@ -147,6 +159,7 @@ public class Photo implements Parcelable {
         dest.writeValue(this.ispublic);
         dest.writeValue(this.isfriend);
         dest.writeValue(this.isfamily);
+        dest.writeValue(this.url);
     }
 
     protected Photo(Parcel in) {
@@ -159,6 +172,7 @@ public class Photo implements Parcelable {
         this.ispublic = (Integer) in.readValue(Integer.class.getClassLoader());
         this.isfriend = (Integer) in.readValue(Integer.class.getClassLoader());
         this.isfamily = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.url = in.readString();
     }
 
     public static final Parcelable.Creator<Photo> CREATOR = new Parcelable.Creator<Photo>() {

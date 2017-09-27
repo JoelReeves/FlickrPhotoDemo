@@ -1,7 +1,9 @@
 package net.joelreeves.flickrphotodemo.activities;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -14,13 +16,18 @@ import android.view.View;
 
 import net.joelreeves.flickrphotodemo.R;
 import net.joelreeves.flickrphotodemo.application.FlickrDemoApplication;
+import net.joelreeves.flickrphotodemo.models.Photo;
 import net.joelreeves.flickrphotodemo.services.FlickrPhotoRepository;
 import net.joelreeves.flickrphotodemo.utils.NetworkUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class PhotosActivity extends AppCompatActivity {
 
@@ -28,6 +35,8 @@ public class PhotosActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recyclerview) RecyclerView recyclerView;
+
+    private List<Photo> photoList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +48,8 @@ public class PhotosActivity extends AppCompatActivity {
         ((FlickrDemoApplication) getApplication()).getAndroidComponent().inject(this);
 
         setSupportActionBar(toolbar);
+
+        flickrPhotoRepository.setPhotosListener(photosListener);
     }
 
     @Override
@@ -67,24 +78,40 @@ public class PhotosActivity extends AppCompatActivity {
 
     private void getRecentPhotos() {
         if (!NetworkUtils.networkIsAvailable(this)) {
-            showNoNetworkSnackbar();
+            showErrorSnackbar(R.string.network_error_no_network_connection, R.string.button_retry, photoErrorClickListener);
         } else {
-            // TODO
+            flickrPhotoRepository.getRecentPhotos();
         }
     }
 
-    private void showNoNetworkSnackbar() {
-        Snackbar snackbar = Snackbar.make(toolbar, R.string.network_error_no_network_connection, BaseTransientBottomBar.LENGTH_INDEFINITE);
+    private void showErrorSnackbar(@StringRes int stringResId, @StringRes int actionText, @Nullable View.OnClickListener onClickListener) {
+        Snackbar snackbar = Snackbar.make(toolbar, stringResId, BaseTransientBottomBar.LENGTH_INDEFINITE);
         snackbar.getView().setBackgroundColor(ContextCompat.getColor(this, R.color.red));
         snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.white));
-        snackbar.setAction("Retry", noNetworkClickListener);
+        if (onClickListener != null) {
+            snackbar.setAction(actionText, onClickListener);
+        }
         snackbar.show();
     }
 
-    private final View.OnClickListener noNetworkClickListener = new View.OnClickListener() {
+    private final View.OnClickListener photoErrorClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             getRecentPhotos();
+        }
+    };
+
+    private final FlickrPhotoRepository.PhotosListener photosListener = new FlickrPhotoRepository.PhotosListener() {
+        @Override
+        public void onSuccess(@NonNull List<Photo> photos) {
+            photoList = photos;
+            Timber.d("Number of photos returned: %d", photoList.size());
+        }
+
+        @Override
+        public void onFailure(@NonNull String errorMessage) {
+            Timber.e("Error: %s", errorMessage);
+            showErrorSnackbar(R.string.network_error_retrieving_photos, R.string.button_retry, photoErrorClickListener);
         }
     };
 }

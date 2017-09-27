@@ -6,6 +6,8 @@ import net.joelreeves.flickrphotodemo.BuildConfig;
 import net.joelreeves.flickrphotodemo.application.components.AndroidComponent;
 import net.joelreeves.flickrphotodemo.application.components.DaggerAndroidComponent;
 import net.joelreeves.flickrphotodemo.application.modules.AndroidModule;
+import net.joelreeves.flickrphotodemo.application.modules.NetworkModule;
+import net.joelreeves.flickrphotodemo.services.FlickrPhotoRepository;
 
 import timber.log.Timber;
 
@@ -19,6 +21,7 @@ public class FlickrDemoApplication extends Application {
 
         androidComponent = DaggerAndroidComponent.builder()
                 .androidModule(new AndroidModule(this))
+                .networkModule(new NetworkModule(FlickrPhotoRepository.FLICKR_BASE_URL))
                 .build();
 
         if (BuildConfig.DEBUG) {
