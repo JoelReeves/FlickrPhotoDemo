@@ -5,6 +5,7 @@
     android:id="@+id/photo"
     android:layout_width="@dimen/photo_dimensions"
     android:layout_height="@dimen/photo_dimensions"
+    android:padding="@dimen/photo_padding"
     android:layout_gravity="center"
     android:scaleType="centerCrop"
     tools:src="@mipmap/ic_launcher"/>

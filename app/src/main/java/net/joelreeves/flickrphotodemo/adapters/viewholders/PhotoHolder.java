@@ -11,6 +11,7 @@ import com.squareup.picasso.Picasso;
 
 import net.joelreeves.flickrphotodemo.R;
 import net.joelreeves.flickrphotodemo.models.Photo;
+import net.joelreeves.flickrphotodemo.views.CropCircleTransformation;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,22 +25,25 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.photo) ImageView photoImageView;
 
-    private static final int PHOTO_DIMENSIONS = 150;
+    private static final int PHOTO_DIMENSIONS = 120;
 
     private PhotoHolderListener photoHolderListener;
+    private CropCircleTransformation cropCircleTransformation;
 
     public PhotoHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+        cropCircleTransformation = new CropCircleTransformation();
     }
 
     public void bindPhoto(@NonNull Photo photo) {
         final String photoUrl = TextUtils.isEmpty(photo.getUrl()) ? "" : photo.getUrl();
         Picasso.with(itemView.getContext())
                 .load(Uri.parse(photoUrl))
-                .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.ic_photo_loading)
+                .error(R.drawable.ic_photo_error)
                 .resize(PHOTO_DIMENSIONS, PHOTO_DIMENSIONS)
+                .transform(cropCircleTransformation)
                 .centerCrop()
                 .into(photoImageView);
     }
