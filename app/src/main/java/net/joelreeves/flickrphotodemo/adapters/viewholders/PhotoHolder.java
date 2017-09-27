@@ -34,24 +34,14 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindPhoto(@NonNull Photo photo) {
-        String photoUrl = photo.getUrl();
-        if (TextUtils.isEmpty(photoUrl)) {
-            Picasso.with(itemView.getContext())
-                    .load(R.mipmap.ic_launcher)
-                    .placeholder(R.mipmap.ic_launcher)
-                    .error(R.mipmap.ic_launcher)
-                    .resize(PHOTO_DIMENSIONS, PHOTO_DIMENSIONS)
-                    .centerCrop()
-                    .into(photoImageView);
-        } else {
-            Picasso.with(itemView.getContext())
-                    .load(Uri.parse(photo.getUrl()))
-                    .placeholder(R.mipmap.ic_launcher)
-                    .error(R.mipmap.ic_launcher)
-                    .resize(PHOTO_DIMENSIONS, PHOTO_DIMENSIONS)
-                    .centerCrop()
-                    .into(photoImageView);
-        }
+        final String photoUrl = TextUtils.isEmpty(photo.getUrl()) ? "" : photo.getUrl();
+        Picasso.with(itemView.getContext())
+                .load(Uri.parse(photoUrl))
+                .placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher)
+                .resize(PHOTO_DIMENSIONS, PHOTO_DIMENSIONS)
+                .centerCrop()
+                .into(photoImageView);
     }
 
     @OnClick(R.id.photo)
