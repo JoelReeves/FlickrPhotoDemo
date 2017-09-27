@@ -13,12 +13,18 @@ import android.view.MenuItem;
 import android.view.View;
 
 import net.joelreeves.flickrphotodemo.R;
+import net.joelreeves.flickrphotodemo.application.FlickrDemoApplication;
+import net.joelreeves.flickrphotodemo.services.FlickrPhotoRepository;
 import net.joelreeves.flickrphotodemo.utils.NetworkUtils;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PhotosActivity extends AppCompatActivity {
+
+    @Inject FlickrPhotoRepository flickrPhotoRepository;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recyclerview) RecyclerView recyclerView;
@@ -29,6 +35,8 @@ public class PhotosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_photos);
 
         ButterKnife.bind(this);
+
+        ((FlickrDemoApplication) getApplication()).getAndroidComponent().inject(this);
 
         setSupportActionBar(toolbar);
     }
