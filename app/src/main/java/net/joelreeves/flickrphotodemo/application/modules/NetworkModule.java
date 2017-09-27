@@ -1,13 +1,8 @@
 package net.joelreeves.flickrphotodemo.application.modules;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
-import com.jakewharton.picasso.OkHttp3Downloader;
-import com.squareup.picasso.Picasso;
-
-import net.joelreeves.flickrphotodemo.services.FlickrPhotoRepository;
 import net.joelreeves.flickrphotodemo.services.FlickrService;
 
 import java.io.File;
@@ -42,8 +37,7 @@ public class NetworkModule {
         this.endpoint = endpoint;
     }
 
-    @Provides
-    @NonNull @Singleton
+    @Provides @NonNull @Singleton
     public HttpUrl provideEndpoint() {
         return this.endpoint;
     }
@@ -76,18 +70,5 @@ public class NetworkModule {
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build()
                 .create(FlickrService.class);
-    }
-
-    @Provides @NonNull @Singleton
-    public FlickrPhotoRepository providePersonRepository(@NonNull FlickrService flickrService) {
-        return new FlickrPhotoRepository(flickrService);
-    }
-
-    @Provides @NonNull @Singleton
-    public Picasso providePicasso(@NonNull Context context, @NonNull OkHttpClient client) {
-        return new Picasso.Builder(context)
-                .downloader(new OkHttp3Downloader(client))
-                .defaultBitmapConfig(Bitmap.Config.ARGB_8888)
-                .build();
     }
 }

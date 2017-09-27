@@ -8,6 +8,7 @@ import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -15,10 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import net.joelreeves.flickrphotodemo.R;
+import net.joelreeves.flickrphotodemo.adapters.PhotoAdapter;
 import net.joelreeves.flickrphotodemo.application.FlickrDemoApplication;
 import net.joelreeves.flickrphotodemo.models.Photo;
 import net.joelreeves.flickrphotodemo.services.FlickrPhotoRepository;
-import net.joelreeves.flickrphotodemo.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +30,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
+import static net.joelreeves.flickrphotodemo.utils.NetworkUtils.networkIsAvailable;
+
 public class PhotosActivity extends AppCompatActivity {
 
     @Inject FlickrPhotoRepository flickrPhotoRepository;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recyclerview) RecyclerView recyclerView;
+
+    private static final int NUMBER_OF_COLUMNS = 3;
 
     private List<Photo> photoList = new ArrayList<>();
 
@@ -77,10 +82,21 @@ public class PhotosActivity extends AppCompatActivity {
     }
 
     private void getRecentPhotos() {
-        if (!NetworkUtils.networkIsAvailable(this)) {
+        if (!networkIsAvailable(this)) {
             showErrorSnackbar(R.string.network_error_no_network_connection, R.string.button_retry, photoErrorClickListener);
         } else {
             flickrPhotoRepository.getRecentPhotos();
+        }
+    }
+
+    private void showRecyclerView() {
+        recyclerView.setLayoutManager(new GridLayoutManager(this, NUMBER_OF_COLUMNS));
+
+        if (!photoList.isEmpty()) {
+            PhotoAdapter photoAdapter = new PhotoAdapter(photoList);
+            recyclerView.setAdapter(photoAdapter);
+        } else {
+            showErrorSnackbar(R.string.network_error_retrieving_photos, R.string.button_retry, photoErrorClickListener);
         }
     }
 
@@ -106,6 +122,7 @@ public class PhotosActivity extends AppCompatActivity {
         public void onSuccess(@NonNull List<Photo> photos) {
             photoList = photos;
             Timber.d("Number of photos returned: %d", photoList.size());
+            showRecyclerView();
         }
 
         @Override
