@@ -159,7 +159,7 @@ public class Photo implements Parcelable {
         dest.writeValue(this.ispublic);
         dest.writeValue(this.isfriend);
         dest.writeValue(this.isfamily);
-        dest.writeValue(this.url);
+        dest.writeString(this.url);
     }
 
     protected Photo(Parcel in) {
@@ -175,7 +175,7 @@ public class Photo implements Parcelable {
         this.url = in.readString();
     }
 
-    public static final Parcelable.Creator<Photo> CREATOR = new Parcelable.Creator<Photo>() {
+    public static final Creator<Photo> CREATOR = new Creator<Photo>() {
         @Override
         public Photo createFromParcel(Parcel source) {
             return new Photo(source);

@@ -15,7 +15,7 @@ import retrofit2.Response;
 public class FlickrPhotoRepository {
 
     public interface PhotoRepositoryListener {
-        void onSuccess(@NonNull List<Photo> photoList);
+        void onSuccess(@NonNull ArrayList<Photo> photoList);
         void onFailure(@NonNull String errorMessage);
     }
 
@@ -27,7 +27,7 @@ public class FlickrPhotoRepository {
     private static final String FLICKR_API_EXTRAS = "url_s";
 
     private final FlickrService flickrService;
-    private List<Photo> photoList;
+    private ArrayList<Photo> photoList;
     private PhotoRepositoryListener photoRepositoryListener;
 
     public FlickrPhotoRepository(FlickrService flickrService) {

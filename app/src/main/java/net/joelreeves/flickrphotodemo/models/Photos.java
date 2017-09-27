@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
+import java.util.ArrayList;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -22,11 +22,11 @@ public class Photos implements Parcelable {
     @JsonProperty("total")
     public String total;
     @JsonProperty("photo")
-    public List<Photo> photo;
+    public ArrayList<Photo> photo;
 
     public Photos() {}
 
-    public Photos(Integer page, Integer pages, Integer perpage, String total, List<Photo> photo) {
+    public Photos(Integer page, Integer pages, Integer perpage, String total, ArrayList<Photo> photo) {
         this.page = page;
         this.pages = pages;
         this.perpage = perpage;
@@ -66,11 +66,11 @@ public class Photos implements Parcelable {
         this.total = total;
     }
 
-    public List<Photo> getPhoto() {
+    public ArrayList<Photo> getPhoto() {
         return photo;
     }
 
-    public void setPhoto(List<Photo> photo) {
+    public void setPhoto(ArrayList<Photo> photo) {
         this.photo = photo;
     }
 

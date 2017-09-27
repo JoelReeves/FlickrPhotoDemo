@@ -10,6 +10,7 @@ import net.joelreeves.flickrphotodemo.R;
 import net.joelreeves.flickrphotodemo.adapters.viewholders.PhotoHolder;
 import net.joelreeves.flickrphotodemo.models.Photo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoHolder> {
@@ -40,6 +41,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoHolder> {
     @Override
     public int getItemCount() {
         return photoList.size();
+    }
+
+    public void setPhotos(@NonNull ArrayList<Photo> photos) {
+        notifyDataSetChanged();
     }
 
     private final PhotoHolder.PhotoHolderListener photoHolderListener = new PhotoHolder.PhotoHolderListener() {
