@@ -1,7 +1,6 @@
 package net.joelreeves.flickrphotodemo.activities;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -41,12 +40,8 @@ public class PhotosActivity extends AppCompatActivity {
 
     private static final int NUMBER_OF_COLUMNS = 3;
     private static final String PHOTO_LIST_KEY = "photo_list_key";
-    private static final String RECYCLERVIEW_KEY = "recyclerview_key";
-
 
     private ArrayList<Photo> photoList = new ArrayList<>();
-    private PhotoAdapter photoAdapter;
-    private Parcelable test;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,33 +56,21 @@ public class PhotosActivity extends AppCompatActivity {
 
         flickrPhotoRepository.setPhotoRepositoryListener(photoRepositoryListener);
 
+        recyclerView.setLayoutManager(new GridLayoutManager(this, NUMBER_OF_COLUMNS));
+        recyclerView.setHasFixedSize(true);
+
         if (savedInstanceState == null) {
             getRecentPhotos();
         } else {
             photoList = savedInstanceState.getParcelableArrayList(PHOTO_LIST_KEY);
-            //showRecyclerView();
-
-            test = savedInstanceState.getParcelable(RECYCLERVIEW_KEY);
-            //recyclerView.getLayoutManager().onRestoreInstanceState(savedInstanceState);
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (test != null) {
-            recyclerView.getLayoutManager().onRestoreInstanceState(test);
+            populateRecyclerView();
         }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
         outState.putParcelableArrayList(PHOTO_LIST_KEY, photoList);
-        test = recyclerView.getLayoutManager().onSaveInstanceState();
-        outState.putParcelable(RECYCLERVIEW_KEY, test);
     }
 
     @Override
@@ -115,11 +98,9 @@ public class PhotosActivity extends AppCompatActivity {
         }
     }
 
-    private void showRecyclerView() {
-        recyclerView.setLayoutManager(new GridLayoutManager(this, NUMBER_OF_COLUMNS));
-
+    private void populateRecyclerView() {
         if (!photoList.isEmpty()) {
-            photoAdapter = new PhotoAdapter(photoList);
+            PhotoAdapter photoAdapter = new PhotoAdapter(photoList);
             photoAdapter.setPhotoAdapterListener(photoAdapterListener);
             recyclerView.setAdapter(photoAdapter);
         } else {
@@ -146,10 +127,10 @@ public class PhotosActivity extends AppCompatActivity {
 
     private final FlickrPhotoRepository.PhotoRepositoryListener photoRepositoryListener = new FlickrPhotoRepository.PhotoRepositoryListener() {
         @Override
-        public void onSuccess(@NonNull ArrayList<Photo> photos) {
-            photoList = photos;
+        public void onSuccess() {
+            photoList = flickrPhotoRepository.getPhotoList();
             Timber.d("Number of photos returned: %d", photoList.size());
-            showRecyclerView();
+            populateRecyclerView();
         }
 
         @Override

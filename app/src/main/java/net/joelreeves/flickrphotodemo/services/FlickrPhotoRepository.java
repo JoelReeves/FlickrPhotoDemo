@@ -6,7 +6,6 @@ import net.joelreeves.flickrphotodemo.models.Photo;
 import net.joelreeves.flickrphotodemo.models.PhotoResponse;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -15,7 +14,7 @@ import retrofit2.Response;
 public class FlickrPhotoRepository {
 
     public interface PhotoRepositoryListener {
-        void onSuccess(@NonNull ArrayList<Photo> photoList);
+        void onSuccess();
         void onFailure(@NonNull String errorMessage);
     }
 
@@ -39,7 +38,7 @@ public class FlickrPhotoRepository {
         flickrService.getRecentPhotos(API_REQUEST, API_KEY, API_FORMAT, API_JSON_CALLBACK, API_EXTRAS).enqueue(recentPhotoCallback);
     }
 
-    public List<Photo> getPhotoList() {
+    public ArrayList<Photo> getPhotoList() {
         return photoList;
     }
 
@@ -50,7 +49,7 @@ public class FlickrPhotoRepository {
                 photoList.clear();
                 photoList = response.body().getPhotos().getPhoto();
                 if (photoRepositoryListener != null) {
-                    photoRepositoryListener.onSuccess(photoList);
+                    photoRepositoryListener.onSuccess();
                 }
             } else {
                 if (photoRepositoryListener != null) {
