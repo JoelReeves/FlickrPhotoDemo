@@ -21,7 +21,7 @@ public class FlickrDemoApplication extends Application {
 
         androidComponent = DaggerAndroidComponent.builder()
                 .androidModule(new AndroidModule(this))
-                .networkModule(new NetworkModule(FlickrPhotoRepository.FLICKR_BASE_URL))
+                .networkModule(new NetworkModule(FlickrPhotoRepository.BASE_URL))
                 .build();
 
         if (BuildConfig.DEBUG) {

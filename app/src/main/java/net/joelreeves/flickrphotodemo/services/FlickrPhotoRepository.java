@@ -19,12 +19,12 @@ public class FlickrPhotoRepository {
         void onFailure(@NonNull String errorMessage);
     }
 
-    public static final String FLICKR_BASE_URL = " https://api.flickr.com";
+    public static final String BASE_URL = " https://api.flickr.com";
     private static final String API_KEY = "c28ab4cafc09aff5feffbabcbc92af9f";
-    private static final String FLICKR_API_GET_RECENT_PHOTOS = "flickr.photos.getRecent";
-    private static final String FLICKR_API_FORMAT = "json";
-    private static final String FLICKR_API_JSON_CALLBACK = "1";
-    private static final String FLICKR_API_EXTRAS = "url_s";
+    private static final String API_REQUEST = "flickr.photos.getRecent";
+    private static final String API_FORMAT = "json";
+    private static final String API_JSON_CALLBACK = "1";
+    private static final String API_EXTRAS = "url_s";
 
     private final FlickrService flickrService;
     private ArrayList<Photo> photoList;
@@ -36,7 +36,7 @@ public class FlickrPhotoRepository {
     }
 
     public void getRecentPhotos() {
-        flickrService.getRecentPhotos(FLICKR_API_GET_RECENT_PHOTOS, API_KEY, FLICKR_API_FORMAT, FLICKR_API_JSON_CALLBACK, FLICKR_API_EXTRAS).enqueue(recentPhotoCallback);
+        flickrService.getRecentPhotos(API_REQUEST, API_KEY, API_FORMAT, API_JSON_CALLBACK, API_EXTRAS).enqueue(recentPhotoCallback);
     }
 
     public List<Photo> getPhotoList() {
