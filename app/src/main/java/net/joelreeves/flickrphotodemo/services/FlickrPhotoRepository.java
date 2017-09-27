@@ -14,7 +14,7 @@ import retrofit2.Response;
 
 public class FlickrPhotoRepository {
 
-    public interface PhotosListener {
+    public interface PhotoRepositoryListener {
         void onSuccess(@NonNull List<Photo> photoList);
         void onFailure(@NonNull String errorMessage);
     }
@@ -28,7 +28,7 @@ public class FlickrPhotoRepository {
 
     private final FlickrService flickrService;
     private List<Photo> photoList;
-    private PhotosListener photosListener;
+    private PhotoRepositoryListener photoRepositoryListener;
 
     public FlickrPhotoRepository(FlickrService flickrService) {
         this.flickrService = flickrService;
@@ -49,25 +49,25 @@ public class FlickrPhotoRepository {
             if (response.isSuccessful()) {
                 photoList.clear();
                 photoList = response.body().getPhotos().getPhoto();
-                if (photosListener != null) {
-                    photosListener.onSuccess(photoList);
+                if (photoRepositoryListener != null) {
+                    photoRepositoryListener.onSuccess(photoList);
                 }
             } else {
-                if (photosListener != null) {
-                    photosListener.onFailure(response.message());
+                if (photoRepositoryListener != null) {
+                    photoRepositoryListener.onFailure(response.message());
                 }
             }
         }
 
         @Override
         public void onFailure(Call<PhotoResponse> call, Throwable t) {
-            if (photosListener != null) {
-                photosListener.onFailure(t.getMessage());
+            if (photoRepositoryListener != null) {
+                photoRepositoryListener.onFailure(t.getMessage());
             }
         }
     };
 
-    public void setPhotosListener(PhotosListener photosListener) {
-        this.photosListener = photosListener;
+    public void setPhotoRepositoryListener(PhotoRepositoryListener photoRepositoryListener) {
+        this.photoRepositoryListener = photoRepositoryListener;
     }
 }

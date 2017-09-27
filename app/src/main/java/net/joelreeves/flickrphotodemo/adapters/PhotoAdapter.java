@@ -1,5 +1,6 @@
 package net.joelreeves.flickrphotodemo.adapters;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,12 @@ import java.util.List;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoHolder> {
 
+    public interface PhotoAdapterListener {
+        void onClick(@NonNull Photo photo);
+    }
+
     private List<Photo> photoList;
+    private PhotoAdapterListener photoAdapterListener;
 
     public PhotoAdapter(List<Photo> photoList) {
         this.photoList = photoList;
@@ -27,11 +33,25 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoHolder> {
 
     @Override
     public void onBindViewHolder(PhotoHolder holder, int position) {
+        holder.setPhotoHolderListener(photoHolderListener);
         holder.bindPhoto(photoList.get(position));
     }
 
     @Override
     public int getItemCount() {
         return photoList.size();
+    }
+
+    private final PhotoHolder.PhotoHolderListener photoHolderListener = new PhotoHolder.PhotoHolderListener() {
+        @Override
+        public void onPhotoClick(int position) {
+            if (photoAdapterListener != null) {
+                photoAdapterListener.onClick(photoList.get(position));
+            }
+        }
+    };
+
+    public void setPhotoAdapterListener(PhotoAdapterListener photoAdapterListener) {
+        this.photoAdapterListener = photoAdapterListener;
     }
 }

@@ -54,7 +54,7 @@ public class PhotosActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-        flickrPhotoRepository.setPhotosListener(photosListener);
+        flickrPhotoRepository.setPhotoRepositoryListener(photoRepositoryListener);
     }
 
     @Override
@@ -94,6 +94,7 @@ public class PhotosActivity extends AppCompatActivity {
 
         if (!photoList.isEmpty()) {
             PhotoAdapter photoAdapter = new PhotoAdapter(photoList);
+            photoAdapter.setPhotoAdapterListener(photoAdapterListener);
             recyclerView.setAdapter(photoAdapter);
         } else {
             showErrorSnackbar(R.string.network_error_retrieving_photos, R.string.button_retry, photoErrorClickListener);
@@ -117,7 +118,7 @@ public class PhotosActivity extends AppCompatActivity {
         }
     };
 
-    private final FlickrPhotoRepository.PhotosListener photosListener = new FlickrPhotoRepository.PhotosListener() {
+    private final FlickrPhotoRepository.PhotoRepositoryListener photoRepositoryListener = new FlickrPhotoRepository.PhotoRepositoryListener() {
         @Override
         public void onSuccess(@NonNull List<Photo> photos) {
             photoList = photos;
@@ -129,6 +130,13 @@ public class PhotosActivity extends AppCompatActivity {
         public void onFailure(@NonNull String errorMessage) {
             Timber.e("Error: %s", errorMessage);
             showErrorSnackbar(R.string.network_error_retrieving_photos, R.string.button_retry, photoErrorClickListener);
+        }
+    };
+
+    private final PhotoAdapter.PhotoAdapterListener photoAdapterListener = new PhotoAdapter.PhotoAdapterListener() {
+        @Override
+        public void onClick(@NonNull Photo photo) {
+            Timber.d("Photo URL: %s", photo.getUrl());
         }
     };
 }
