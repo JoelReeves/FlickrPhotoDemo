@@ -37,7 +37,7 @@ public class PhotosActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recyclerview) RecyclerView recyclerView;
-    
+
     private static final String PHOTO_LIST_KEY = "photo_list_key";
 
     private ArrayList<Photo> photoList = new ArrayList<>();
@@ -55,7 +55,8 @@ public class PhotosActivity extends AppCompatActivity {
 
         flickrPhotoRepository.setPhotoRepositoryListener(photoRepositoryListener);
 
-        recyclerView.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.grid_columns)));
+        final int numberOfColumns = getResources().getInteger(R.integer.grid_columns);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
         recyclerView.setHasFixedSize(true);
 
         if (savedInstanceState == null) {
