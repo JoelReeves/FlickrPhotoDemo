@@ -1,6 +1,5 @@
 package net.joelreeves.flickrphotodemo.activities;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -38,9 +37,7 @@ public class PhotosActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recyclerview) RecyclerView recyclerView;
-
-    private static final int PORTRAIT_COLUMNS = 3;
-    private static final int LANDSCAPE_COLUMNS = 4;
+    
     private static final String PHOTO_LIST_KEY = "photo_list_key";
 
     private ArrayList<Photo> photoList = new ArrayList<>();
@@ -58,7 +55,8 @@ public class PhotosActivity extends AppCompatActivity {
 
         flickrPhotoRepository.setPhotoRepositoryListener(photoRepositoryListener);
 
-        setupRecyclerView();
+        recyclerView.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.grid_columns)));
+        recyclerView.setHasFixedSize(true);
 
         if (savedInstanceState == null) {
             getRecentPhotos();
@@ -97,15 +95,6 @@ public class PhotosActivity extends AppCompatActivity {
         } else {
             flickrPhotoRepository.getRecentPhotos();
         }
-    }
-
-    private void setupRecyclerView() {
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            recyclerView.setLayoutManager(new GridLayoutManager(this, PORTRAIT_COLUMNS));
-        } else{
-            recyclerView.setLayoutManager(new GridLayoutManager(this, LANDSCAPE_COLUMNS));
-        }
-        recyclerView.setHasFixedSize(true);
     }
 
     private void populateRecyclerView() {
