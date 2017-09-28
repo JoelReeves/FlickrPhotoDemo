@@ -1,4 +1,4 @@
-package net.joelreeves.flickrphotodemo.views;
+package net.joelreeves.flickrphotodemo.ui.views;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

@@ -1,6 +1,6 @@
-package net.joelreeves.flickrphotodemo.services;
+package net.joelreeves.flickrphotodemo.data.services;
 
-import net.joelreeves.flickrphotodemo.models.PhotoResponse;
+import net.joelreeves.flickrphotodemo.data.models.PhotoResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

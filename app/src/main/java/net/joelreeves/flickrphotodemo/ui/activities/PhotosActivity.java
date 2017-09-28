@@ -1,4 +1,4 @@
-package net.joelreeves.flickrphotodemo.activities;
+package net.joelreeves.flickrphotodemo.ui.activities;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,10 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import net.joelreeves.flickrphotodemo.R;
-import net.joelreeves.flickrphotodemo.adapters.PhotoAdapter;
-import net.joelreeves.flickrphotodemo.application.FlickrDemoApplication;
-import net.joelreeves.flickrphotodemo.models.Photo;
-import net.joelreeves.flickrphotodemo.services.FlickrPhotoRepository;
+import net.joelreeves.flickrphotodemo.ui.adapters.PhotoAdapter;
+import net.joelreeves.flickrphotodemo.core.FlickrDemoApplication;
+import net.joelreeves.flickrphotodemo.data.models.Photo;
+import net.joelreeves.flickrphotodemo.data.services.FlickrPhotoRepository;
 
 import java.util.ArrayList;
 

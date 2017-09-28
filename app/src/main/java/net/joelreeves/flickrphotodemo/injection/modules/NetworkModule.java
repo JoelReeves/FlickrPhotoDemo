@@ -1,9 +1,9 @@
-package net.joelreeves.flickrphotodemo.application.modules;
+package net.joelreeves.flickrphotodemo.injection.modules;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import net.joelreeves.flickrphotodemo.services.FlickrService;
+import net.joelreeves.flickrphotodemo.data.services.FlickrService;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;

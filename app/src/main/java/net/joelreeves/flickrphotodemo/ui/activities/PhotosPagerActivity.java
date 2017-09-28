@@ -1,4 +1,4 @@
-package net.joelreeves.flickrphotodemo.activities;
+package net.joelreeves.flickrphotodemo.ui.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,9 +13,9 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import net.joelreeves.flickrphotodemo.R;
-import net.joelreeves.flickrphotodemo.application.FlickrDemoApplication;
-import net.joelreeves.flickrphotodemo.models.Photo;
-import net.joelreeves.flickrphotodemo.views.CropCircleTransformation;
+import net.joelreeves.flickrphotodemo.core.FlickrDemoApplication;
+import net.joelreeves.flickrphotodemo.data.models.Photo;
+import net.joelreeves.flickrphotodemo.ui.views.CropCircleTransformation;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

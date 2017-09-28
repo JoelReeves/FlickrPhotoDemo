@@ -1,9 +1,9 @@
-package net.joelreeves.flickrphotodemo.services;
+package net.joelreeves.flickrphotodemo.data.services;
 
 import android.support.annotation.NonNull;
 
-import net.joelreeves.flickrphotodemo.models.Photo;
-import net.joelreeves.flickrphotodemo.models.PhotoResponse;
+import net.joelreeves.flickrphotodemo.data.models.Photo;
+import net.joelreeves.flickrphotodemo.data.models.PhotoResponse;
 
 import java.util.ArrayList;
 

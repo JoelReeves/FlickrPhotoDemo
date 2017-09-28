@@ -1,4 +1,4 @@
-package net.joelreeves.flickrphotodemo.adapters;
+package net.joelreeves.flickrphotodemo.ui.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.joelreeves.flickrphotodemo.R;
-import net.joelreeves.flickrphotodemo.adapters.viewholders.PhotoHolder;
-import net.joelreeves.flickrphotodemo.models.Photo;
+import net.joelreeves.flickrphotodemo.ui.adapters.viewholders.PhotoHolder;
+import net.joelreeves.flickrphotodemo.data.models.Photo;
 
 import java.util.List;
 

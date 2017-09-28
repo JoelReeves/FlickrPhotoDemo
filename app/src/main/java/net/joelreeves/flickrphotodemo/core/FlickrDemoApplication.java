@@ -1,13 +1,13 @@
-package net.joelreeves.flickrphotodemo.application;
+package net.joelreeves.flickrphotodemo.core;
 
 import android.app.Application;
 
 import net.joelreeves.flickrphotodemo.BuildConfig;
-import net.joelreeves.flickrphotodemo.application.components.AndroidComponent;
-import net.joelreeves.flickrphotodemo.application.components.DaggerAndroidComponent;
-import net.joelreeves.flickrphotodemo.application.modules.AndroidModule;
-import net.joelreeves.flickrphotodemo.application.modules.NetworkModule;
-import net.joelreeves.flickrphotodemo.services.FlickrPhotoRepository;
+import net.joelreeves.flickrphotodemo.injection.components.AndroidComponent;
+import net.joelreeves.flickrphotodemo.injection.components.DaggerAndroidComponent;
+import net.joelreeves.flickrphotodemo.injection.modules.AndroidModule;
+import net.joelreeves.flickrphotodemo.injection.modules.NetworkModule;
+import net.joelreeves.flickrphotodemo.data.services.FlickrPhotoRepository;
 
 import timber.log.Timber;
 

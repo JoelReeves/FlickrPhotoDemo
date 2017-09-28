@@ -1,4 +1,4 @@
-package net.joelreeves.flickrphotodemo.application.modules;
+package net.joelreeves.flickrphotodemo.injection.modules;
 
 import android.app.Application;
 import android.content.Context;
@@ -8,8 +8,8 @@ import android.support.annotation.NonNull;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
-import net.joelreeves.flickrphotodemo.services.FlickrPhotoRepository;
-import net.joelreeves.flickrphotodemo.services.FlickrService;
+import net.joelreeves.flickrphotodemo.data.services.FlickrPhotoRepository;
+import net.joelreeves.flickrphotodemo.data.services.FlickrService;
 
 import javax.inject.Singleton;
 
