@@ -25,7 +25,6 @@ public class PhotosPagerActivity extends AppCompatActivity {
     @BindView(R.id.photo_detail) ImageView currentPhotoImageView;
 
     private static final String PHOTO_EXTRA = "photo_extra";
-    private static final int PHOTO_DIMENSIONS = 400;
 
     private Photo currentPhoto;
 
@@ -48,11 +47,11 @@ public class PhotosPagerActivity extends AppCompatActivity {
 
         if (currentPhoto != null) {
             final String photoUrl = TextUtils.isEmpty(currentPhoto.getUrl()) ? "" : currentPhoto.getUrl();
+            final int photoDimensions = getResources().getDimensionPixelSize(R.dimen.photo_pager_dimensions);
             Picasso.with(this)
                     .load(Uri.parse(photoUrl))
-                    .placeholder(R.drawable.ic_photo_loading)
                     .error(R.drawable.ic_photo_error)
-                    .resize(PHOTO_DIMENSIONS, PHOTO_DIMENSIONS)
+                    .resize(photoDimensions, photoDimensions)
                     .transform(new CropCircleTransformation())
                     .centerCrop()
                     .into(currentPhotoImageView);

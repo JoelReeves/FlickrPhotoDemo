@@ -1,5 +1,6 @@
 package net.joelreeves.flickrphotodemo.ui.adapters.viewholders;
 
+import android.content.res.Resources;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -25,24 +26,25 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.photo) ImageView photoImageView;
 
-    private static final int PHOTO_DIMENSIONS = 120;
-
     private PhotoHolderListener photoHolderListener;
     private CropCircleTransformation cropCircleTransformation;
+    private Resources resources;
 
     public PhotoHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         cropCircleTransformation = new CropCircleTransformation();
+        resources = itemView.getResources();
     }
 
     public void bindPhoto(@NonNull Photo photo) {
         final String photoUrl = TextUtils.isEmpty(photo.getUrl()) ? "" : photo.getUrl();
+        final int photoDimensions = resources.getDimensionPixelSize(R.dimen.photo_dimensions);
         Picasso.with(itemView.getContext())
                 .load(Uri.parse(photoUrl))
                 .placeholder(R.drawable.ic_photo_loading)
                 .error(R.drawable.ic_photo_error)
-                .resize(PHOTO_DIMENSIONS, PHOTO_DIMENSIONS)
+                .resize(photoDimensions, photoDimensions)
                 .transform(cropCircleTransformation)
                 .centerCrop()
                 .into(photoImageView);
