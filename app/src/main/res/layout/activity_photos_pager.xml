@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/offWhite">
+
+    <ImageView
+        android:id="@+id/photo_detail"
+        android:layout_width="@dimen/photo_pager_dimensions"
+        android:layout_height="@dimen/photo_pager_dimensions"
+        android:padding="@dimen/photo_pager_padding"
+        android:scaleType="centerCrop"
+        tools:src="@mipmap/ic_launcher"/>
 
 </LinearLayout>

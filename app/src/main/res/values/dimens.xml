@@ -3,4 +3,6 @@
     <dimen name="toolbar_elevation">2dp</dimen>
     <dimen name="photo_dimensions">120dp</dimen>
     <dimen name="photo_padding">4dp</dimen>
+    <dimen name="photo_pager_dimensions">400dp</dimen>
+    <dimen name="photo_pager_padding">10dp</dimen>
 </resources>
