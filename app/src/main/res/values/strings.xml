@@ -7,4 +7,6 @@
     <string name="button_retry">Retry</string>
     <string name="network_error_no_network_connection">Please check your network connection.</string>
     <string name="network_error_retrieving_photos">Error retrieving photos. Please try again.</string>
+    <string name="device_intent_error">No apps on device can view images</string>
+    <string name="photo_url_error">Photo has invalid url</string>
 </resources>

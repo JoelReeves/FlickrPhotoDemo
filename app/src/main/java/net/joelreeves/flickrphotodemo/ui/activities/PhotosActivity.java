@@ -1,5 +1,7 @@
 package net.joelreeves.flickrphotodemo.ui.activities;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +14,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -127,7 +130,6 @@ public class PhotosActivity extends AppCompatActivity {
 
     private void toggleView() {
         viewPreference.set(!viewPreference.get());
-        setMenuTitleText();
         recreate();
     }
 
@@ -143,6 +145,10 @@ public class PhotosActivity extends AppCompatActivity {
             snackbar.setAction(actionText, onClickListener);
         }
         snackbar.show();
+    }
+
+    private void showErrorSnackbar(@StringRes int stringResId) {
+        showErrorSnackbar(stringResId, View.NO_ID, null);
     }
 
     private final View.OnClickListener photoErrorClickListener = new View.OnClickListener() {
@@ -171,7 +177,17 @@ public class PhotosActivity extends AppCompatActivity {
     private final PhotoAdapter.PhotoAdapterListener photoAdapterListener = new PhotoAdapter.PhotoAdapterListener() {
         @Override
         public void onClick(@NonNull Photo photo) {
-            
+            final String photoUrl = TextUtils.isEmpty(photo.getUrl()) ? "" : photo.getUrl();
+            if (!TextUtils.isEmpty(photoUrl)) {
+                Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(photoUrl));
+                if (webIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(webIntent);
+                } else {
+                    showErrorSnackbar(R.string.device_intent_error);
+                }
+            } else {
+                showErrorSnackbar(R.string.photo_url_error);
+            }
         }
     };
 }
