@@ -1,6 +1,5 @@
 package net.joelreeves.flickrphotodemo.ui.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -129,9 +128,7 @@ public class PhotosActivity extends AppCompatActivity {
     private void toggleView() {
         viewPreference.set(!viewPreference.get());
         setMenuTitleText();
-        Intent refreshIntent = new Intent(this, PhotosActivity.class);
-        startActivity(refreshIntent);
-        finish();
+        recreate();
     }
 
     private void setMenuTitleText() {
@@ -174,7 +171,7 @@ public class PhotosActivity extends AppCompatActivity {
     private final PhotoAdapter.PhotoAdapterListener photoAdapterListener = new PhotoAdapter.PhotoAdapterListener() {
         @Override
         public void onClick(@NonNull Photo photo) {
-            //PhotosPagerActivity.startPhotosPagerActivity(PhotosActivity.this, photo);
+            
         }
     };
 }
