@@ -1,15 +1,14 @@
 package net.joelreeves.flickrphotodemo.data.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Photo implements Parcelable {
+public class Photo implements Serializable {
 
     @JsonProperty("id")
     public String id;
@@ -142,48 +141,4 @@ public class Photo implements Parcelable {
                 ", url_s=" + url +
                 '}';
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
-        dest.writeString(this.owner);
-        dest.writeString(this.secret);
-        dest.writeString(this.server);
-        dest.writeValue(this.farm);
-        dest.writeString(this.title);
-        dest.writeValue(this.ispublic);
-        dest.writeValue(this.isfriend);
-        dest.writeValue(this.isfamily);
-        dest.writeString(this.url);
-    }
-
-    protected Photo(Parcel in) {
-        this.id = in.readString();
-        this.owner = in.readString();
-        this.secret = in.readString();
-        this.server = in.readString();
-        this.farm = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.title = in.readString();
-        this.ispublic = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.isfriend = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.isfamily = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.url = in.readString();
-    }
-
-    public static final Creator<Photo> CREATOR = new Creator<Photo>() {
-        @Override
-        public Photo createFromParcel(Parcel source) {
-            return new Photo(source);
-        }
-
-        @Override
-        public Photo[] newArray(int size) {
-            return new Photo[size];
-        }
-    };
 }

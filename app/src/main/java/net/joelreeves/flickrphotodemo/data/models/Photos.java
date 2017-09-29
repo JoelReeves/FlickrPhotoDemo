@@ -1,17 +1,15 @@
 package net.joelreeves.flickrphotodemo.data.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Photos implements Parcelable {
+public class Photos implements Serializable {
 
     @JsonProperty("page")
     public Integer page;
@@ -84,38 +82,4 @@ public class Photos implements Parcelable {
                 ", photo=" + photo +
                 '}';
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(this.page);
-        dest.writeValue(this.pages);
-        dest.writeValue(this.perpage);
-        dest.writeString(this.total);
-        dest.writeTypedList(this.photo);
-    }
-
-    protected Photos(Parcel in) {
-        this.page = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.pages = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.perpage = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.total = in.readString();
-        this.photo = in.createTypedArrayList(Photo.CREATOR);
-    }
-
-    public static final Creator<Photos> CREATOR = new Creator<Photos>() {
-        @Override
-        public Photos createFromParcel(Parcel source) {
-            return new Photos(source);
-        }
-
-        @Override
-        public Photos[] newArray(int size) {
-            return new Photos[size];
-        }
-    };
 }
