@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
 
     private PhotoHolderListener photoHolderListener;
     private CropCircleTransformation cropCircleTransformation;
+    private ScrollingMovementMethod scrollingMovementMethod;
     private Resources resources;
     private boolean isGrid;
 
@@ -39,8 +41,10 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
         super(itemView);
         ButterKnife.bind(this, itemView);
         cropCircleTransformation = new CropCircleTransformation();
+        scrollingMovementMethod = new ScrollingMovementMethod();
         resources = itemView.getResources();
         this.isGrid = isGrid;
+        photoTitle.setMovementMethod(scrollingMovementMethod);
     }
 
     public void bindPhoto(@NonNull Photo photo) {

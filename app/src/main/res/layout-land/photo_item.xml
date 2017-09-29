@@ -10,9 +10,8 @@
 
     <ImageView
         android:id="@+id/photo"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:padding="@dimen/photo_padding"
         android:layout_gravity="center"
         android:scaleType="centerCrop"
@@ -26,6 +25,7 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:padding="@dimen/photo_title_padding"
+        android:scrollbars="vertical"
         android:layout_marginTop="@dimen/photo_title_top_margin"
         android:textSize="@dimen/photo_title_text_size"
         tools:text="Photo Title Text"/>

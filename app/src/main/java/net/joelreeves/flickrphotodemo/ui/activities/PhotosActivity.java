@@ -174,7 +174,7 @@ public class PhotosActivity extends AppCompatActivity {
     private final PhotoAdapter.PhotoAdapterListener photoAdapterListener = new PhotoAdapter.PhotoAdapterListener() {
         @Override
         public void onClick(@NonNull Photo photo) {
-            PhotosPagerActivity.startPhotosPagerActivity(PhotosActivity.this, photo);
+            //PhotosPagerActivity.startPhotosPagerActivity(PhotosActivity.this, photo);
         }
     };
 }

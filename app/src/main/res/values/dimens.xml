@@ -7,6 +7,4 @@
     <dimen name="photo_title_top_margin">50dp</dimen>
     <dimen name="photo_title_text_size">25sp</dimen>
     <dimen name="photo_title_padding">8dp</dimen>
-    <dimen name="photo_pager_dimensions">250dp</dimen>
-    <dimen name="photo_pager_padding">10dp</dimen>
 </resources>
