@@ -6,12 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/photo_padding"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/photo"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:padding="@dimen/photo_padding"
         android:layout_gravity="center"
         android:scaleType="centerCrop"
@@ -19,8 +20,9 @@
 
     <TextView
         android:id="@+id/photo_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:padding="@dimen/photo_title_padding"

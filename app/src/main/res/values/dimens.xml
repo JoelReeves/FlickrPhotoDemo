@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="toolbar_elevation">2dp</dimen>
-    <dimen name="photo_dimensions">120dp</dimen>
+    <dimen name="photo_grid_dimensions">120dp</dimen>
+    <dimen name="photo_individual_dimensions">300dp</dimen>
     <dimen name="photo_padding">4dp</dimen>
+    <dimen name="photo_title_top_margin">50dp</dimen>
+    <dimen name="photo_title_text_size">25sp</dimen>
+    <dimen name="photo_title_padding">8dp</dimen>
     <dimen name="photo_pager_dimensions">250dp</dimen>
     <dimen name="photo_pager_padding">10dp</dimen>
 </resources>

@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -25,21 +26,27 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
     }
 
     @BindView(R.id.photo) ImageView photoImageView;
+    @BindView(R.id.photo_title) TextView photoTitle;
+
+    private static final String DEFAULT_TITLE = "No Title";
 
     private PhotoHolderListener photoHolderListener;
     private CropCircleTransformation cropCircleTransformation;
     private Resources resources;
+    private boolean isGrid;
 
-    public PhotoHolder(View itemView) {
+    public PhotoHolder(View itemView, boolean isGrid) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         cropCircleTransformation = new CropCircleTransformation();
         resources = itemView.getResources();
+        this.isGrid = isGrid;
     }
 
     public void bindPhoto(@NonNull Photo photo) {
         final String photoUrl = TextUtils.isEmpty(photo.getUrl()) ? "" : photo.getUrl();
-        final int photoDimensions = resources.getDimensionPixelSize(R.dimen.photo_dimensions);
+        final int photoDimensions = isGrid ? resources.getDimensionPixelSize(R.dimen.photo_grid_dimensions)
+                : resources.getDimensionPixelSize(R.dimen.photo_individual_dimensions);
         Picasso.with(itemView.getContext())
                 .load(Uri.parse(photoUrl))
                 .placeholder(R.drawable.ic_photo_loading)
@@ -48,6 +55,10 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
                 .transform(cropCircleTransformation)
                 .centerCrop()
                 .into(photoImageView);
+
+        final String title = TextUtils.isEmpty(photo.getTitle()) ? DEFAULT_TITLE : photo.getTitle();
+        photoTitle.setText(title);
+        photoTitle.setVisibility(isGrid ? View.GONE : View.VISIBLE);
     }
 
     @OnClick(R.id.photo)

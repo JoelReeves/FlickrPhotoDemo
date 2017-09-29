@@ -9,4 +9,9 @@
         android:icon="@drawable/ic_refresh"
         app:iconTint="@color/white"
         app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_show_preference"
+        android:title="@string/menu_show_grid"
+        app:showAsAction="never"/>
 </menu>

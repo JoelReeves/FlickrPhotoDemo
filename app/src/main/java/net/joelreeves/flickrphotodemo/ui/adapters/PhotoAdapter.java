@@ -20,15 +20,17 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoHolder> {
 
     private List<Photo> photoList;
     private PhotoAdapterListener photoAdapterListener;
+    private boolean isGrid;
 
-    public PhotoAdapter(@NonNull List<Photo> photoList) {
+    public PhotoAdapter(@NonNull List<Photo> photoList, boolean isGrid) {
         this.photoList = photoList;
+        this.isGrid = isGrid;
     }
 
     @Override
     public PhotoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.photo_item, parent, false);
-        return new PhotoHolder(view);
+        return new PhotoHolder(view, isGrid);
     }
 
     @Override

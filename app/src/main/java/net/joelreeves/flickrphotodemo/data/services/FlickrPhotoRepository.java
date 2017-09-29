@@ -42,6 +42,14 @@ public class FlickrPhotoRepository {
         return photoList;
     }
 
+    public boolean isEmpty() {
+        return photoList.isEmpty();
+    }
+
+    public void clear() {
+        photoList.clear();
+    }
+
     private final Callback<PhotoResponse> recentPhotoCallback = new Callback<PhotoResponse>() {
         @Override
         public void onResponse(Call<PhotoResponse> call, Response<PhotoResponse> response) {

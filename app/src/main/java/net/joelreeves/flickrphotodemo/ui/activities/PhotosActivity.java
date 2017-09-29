@@ -1,5 +1,6 @@
 package net.joelreeves.flickrphotodemo.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -16,10 +18,12 @@ import android.view.MenuItem;
 import android.view.View;
 
 import net.joelreeves.flickrphotodemo.R;
-import net.joelreeves.flickrphotodemo.ui.adapters.PhotoAdapter;
 import net.joelreeves.flickrphotodemo.core.FlickrDemoApplication;
 import net.joelreeves.flickrphotodemo.data.models.Photo;
+import net.joelreeves.flickrphotodemo.data.preferences.BooleanPreference;
+import net.joelreeves.flickrphotodemo.data.preferences.qualifiers.ViewPreference;
 import net.joelreeves.flickrphotodemo.data.services.FlickrPhotoRepository;
+import net.joelreeves.flickrphotodemo.ui.adapters.PhotoAdapter;
 
 import java.util.ArrayList;
 
@@ -34,13 +38,13 @@ import static net.joelreeves.flickrphotodemo.utils.NetworkUtils.networkIsAvailab
 public class PhotosActivity extends AppCompatActivity {
 
     @Inject FlickrPhotoRepository flickrPhotoRepository;
+    @Inject @ViewPreference BooleanPreference viewPreference;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recyclerview) RecyclerView recyclerView;
 
-    private static final String PHOTO_LIST_KEY = "photo_list_key";
-
     private ArrayList<Photo> photoList = new ArrayList<>();
+    private String menuTitleText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,27 +59,22 @@ public class PhotosActivity extends AppCompatActivity {
 
         flickrPhotoRepository.setPhotoRepositoryListener(photoRepositoryListener);
 
-        final int numberOfColumns = getResources().getInteger(R.integer.grid_columns);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
-        recyclerView.setHasFixedSize(true);
-
-        if (savedInstanceState == null) {
-            getRecentPhotos();
-        } else {
-            photoList = savedInstanceState.getParcelableArrayList(PHOTO_LIST_KEY);
-            populateRecyclerView();
-        }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(PHOTO_LIST_KEY, photoList);
+        initUI();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
+
+        if (menu != null) {
+            MenuItem menuItem = menu.findItem(R.id.action_show_preference);
+            if (menuItem != null) {
+                menuItem.setVisible(!flickrPhotoRepository.isEmpty());
+                setMenuTitleText();
+                menuItem.setTitle(menuTitleText);
+            }
+        }
+
         return true;
     }
 
@@ -84,6 +83,9 @@ public class PhotosActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_refresh:
                 getRecentPhotos();
+                return true;
+            case R.id.action_show_preference:
+                toggleView();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -98,14 +100,42 @@ public class PhotosActivity extends AppCompatActivity {
         }
     }
 
+    private void initUI() {
+        if (viewPreference.get()) {
+            final int numberOfColumns = getResources().getInteger(R.integer.grid_columns);
+            recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
+        } else {
+            recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        }
+        recyclerView.setHasFixedSize(true);
+
+        if (flickrPhotoRepository.isEmpty()) {
+            getRecentPhotos();
+        } else {
+            photoList = flickrPhotoRepository.getPhotoList();
+            populateRecyclerView();
+        }
+    }
     private void populateRecyclerView() {
         if (!photoList.isEmpty()) {
-            PhotoAdapter photoAdapter = new PhotoAdapter(photoList);
+            PhotoAdapter photoAdapter = new PhotoAdapter(photoList, viewPreference.get());
             photoAdapter.setPhotoAdapterListener(photoAdapterListener);
             recyclerView.setAdapter(photoAdapter);
         } else {
             showErrorSnackbar(R.string.network_error_retrieving_photos, R.string.button_retry, photoErrorClickListener);
         }
+    }
+
+    private void toggleView() {
+        viewPreference.set(!viewPreference.get());
+        setMenuTitleText();
+        Intent refreshIntent = new Intent(this, PhotosActivity.class);
+        startActivity(refreshIntent);
+        finish();
+    }
+
+    private void setMenuTitleText() {
+        menuTitleText = viewPreference.get() ? getString(R.string.menu_show_individual) : getString(R.string.menu_show_grid);
     }
 
     private void showErrorSnackbar(@StringRes int stringResId, @StringRes int actionText, @Nullable View.OnClickListener onClickListener) {
@@ -129,6 +159,7 @@ public class PhotosActivity extends AppCompatActivity {
         @Override
         public void onSuccess() {
             photoList = flickrPhotoRepository.getPhotoList();
+            invalidateOptionsMenu();
             Timber.d("Number of photos returned: %d", photoList.size());
             populateRecyclerView();
         }

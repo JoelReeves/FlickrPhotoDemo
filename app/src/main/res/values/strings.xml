@@ -2,6 +2,8 @@
     <string name="app_name">FlickrPhotoDemo</string>
     <string name="toolbar_title">Flickr Recent Photos</string>
     <string name="menu_refresh">Refresh</string>
+    <string name="menu_show_grid">Show Grid</string>
+    <string name="menu_show_individual">Show Individual</string>
     <string name="button_ok">OK</string>
     <string name="button_retry">Retry</string>
     <string name="network_error_no_network_connection">Please check your network connection.</string>
