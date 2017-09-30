@@ -19,6 +19,11 @@ public class PhotoRepository {
         void onFailure(@NonNull String errorMessage);
     }
 
+    public enum CallbackResults {
+        SUCCESS,
+        FAILURE
+    }
+
     public static final String BASE_URL = " https://api.flickr.com";
     private static final String API_KEY = "c28ab4cafc09aff5feffbabcbc92af9f";
     private static final String API_REQUEST = "flickr.photos.getRecent";
@@ -37,13 +42,6 @@ public class PhotoRepository {
 
     public void getRecentPhotos() {
         flickrService.getRecentPhotos(API_REQUEST, API_KEY, API_FORMAT, API_JSON_CALLBACK, API_EXTRAS).enqueue(recentPhotoCallback);
-    }
-
-    @VisibleForTesting
-    public Call<PhotoResponse> getPhotoResponse() {
-        Call<PhotoResponse> responseCall = flickrService.getRecentPhotos(API_REQUEST, API_KEY, API_FORMAT, API_JSON_CALLBACK, API_EXTRAS);
-        responseCall.enqueue(recentPhotoCallback);
-        return responseCall;
     }
 
     public ArrayList<Photo> getPhotoList() {
@@ -81,6 +79,27 @@ public class PhotoRepository {
             }
         }
     };
+
+    @VisibleForTesting
+    public void registerCallback(CallbackResults callbackResults) {
+        if (photoRepositoryListener != null) {
+            if (callbackResults.equals(CallbackResults.SUCCESS)) {
+                fillPhotoList(10);
+                photoRepositoryListener.onSuccess();
+            } else if (callbackResults.equals(CallbackResults.FAILURE)) {
+                photoRepositoryListener.onFailure("");
+            } else {
+                photoRepositoryListener.onFailure("");
+            }
+        }
+    }
+
+    @VisibleForTesting
+    public void fillPhotoList(int numberOfPhotos) {
+        for (int index = 0; index < numberOfPhotos; index++) {
+            photoList.add(new Photo("", "", "", "", null, "", null, null, null, ""));
+        }
+    }
 
     public void setPhotoRepositoryListener(PhotoRepositoryListener photoRepositoryListener) {
         this.photoRepositoryListener = photoRepositoryListener;
