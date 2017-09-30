@@ -26,6 +26,7 @@ import net.joelreeves.flickrphotodemo.data.preferences.BooleanPreference;
 import net.joelreeves.flickrphotodemo.data.preferences.qualifiers.ViewPreference;
 import net.joelreeves.flickrphotodemo.data.services.PhotoRepository;
 import net.joelreeves.flickrphotodemo.ui.adapters.PhotoAdapter;
+import net.joelreeves.flickrphotodemo.utils.NetworkUtils;
 
 import java.util.ArrayList;
 
@@ -35,10 +36,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-import static net.joelreeves.flickrphotodemo.utils.NetworkUtils.networkIsAvailable;
-
 public class PhotosActivity extends AppCompatActivity {
 
+    @Inject NetworkUtils networkUtils;
     @Inject PhotoRepository photoRepository;
     @Inject @ViewPreference BooleanPreference viewPreference;
 
@@ -95,7 +95,7 @@ public class PhotosActivity extends AppCompatActivity {
     }
 
     private void getRecentPhotos() {
-        if (!networkIsAvailable(this)) {
+        if (!networkUtils.networkIsAvailable()) {
             showErrorSnackbar(R.string.network_error_no_network_connection, R.string.button_retry, photoErrorClickListener);
         } else {
             photoRepository.getRecentPhotos();
@@ -118,6 +118,7 @@ public class PhotosActivity extends AppCompatActivity {
             populateRecyclerView();
         }
     }
+    
     private void populateRecyclerView() {
         if (!photoList.isEmpty()) {
             PhotoAdapter photoAdapter = new PhotoAdapter(photoList, viewPreference.get());

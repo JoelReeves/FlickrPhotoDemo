@@ -2,16 +2,16 @@ package net.joelreeves.flickrphotodemo.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.support.annotation.NonNull;
 
 public final class NetworkUtils {
 
-    private NetworkUtils() {
-        throw new AssertionError("No instances.");
+    private final Context context;
+
+    public NetworkUtils(Context context) {
+        this.context = context;
     }
 
-    public static boolean networkIsAvailable(@NonNull Context context) {
-
+    public boolean networkIsAvailable() {
         ConnectivityManager cm = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         return cm != null &&

@@ -10,6 +10,7 @@ import com.squareup.picasso.Picasso;
 
 import net.joelreeves.flickrphotodemo.data.services.PhotoRepository;
 import net.joelreeves.flickrphotodemo.data.services.FlickrService;
+import net.joelreeves.flickrphotodemo.utils.NetworkUtils;
 
 import javax.inject.Singleton;
 
@@ -29,6 +30,11 @@ public class AndroidModule {
     @Provides @Singleton
     Context provideContext() {
         return mApplication;
+    }
+
+    @Provides @Singleton
+    NetworkUtils provideNetworkUtils(Context context) {
+        return new NetworkUtils(context);
     }
 
     @Provides @NonNull @Singleton
