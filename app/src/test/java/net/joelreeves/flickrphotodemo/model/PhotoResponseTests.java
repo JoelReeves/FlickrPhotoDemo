@@ -15,7 +15,7 @@ public class PhotoResponseTests {
 
     @Before
     public void setUp() throws Exception {
-        photoResponse = TestJsonLoader.load(TestJsonLoader.FULL_PHOTO_RESPONSE, PhotoResponse.class);
+        photoResponse = TestJsonLoader.load(TestJsonLoader.PHOTO_RESPONSE, PhotoResponse.class);
     }
 
     @Test
@@ -55,7 +55,7 @@ public class PhotoResponseTests {
     }
 
     private Photo getPhotoAtIndex(int index) {
-        if (index < 0 || index > photoResponse.getPhotos().getPhoto().size()) {
+        if (index < 0 || index > photoResponse.getPhotos().getPhoto().size() - 1) {
             return null;
         } else {
             return photoResponse.getPhotos().getPhoto().get(index);

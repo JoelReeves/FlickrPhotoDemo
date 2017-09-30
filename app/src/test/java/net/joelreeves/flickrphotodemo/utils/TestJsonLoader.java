@@ -6,8 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class TestJsonLoader {
-    public final static String FULL_PHOTO_RESPONSE = "responses/PhotoResponse.json";
-    public final static String PHOTO_TEST = "responses/Photo.json";
+    public final static String PHOTO_RESPONSE = "responses/PhotoResponse.json";
 
     public static <T> T load(String filePath, Class<T> aClass) {
         final ObjectMapper mapper = new ObjectMapper();
