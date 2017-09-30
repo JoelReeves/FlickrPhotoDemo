@@ -1,6 +1,7 @@
 package net.joelreeves.flickrphotodemo.data.services;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import net.joelreeves.flickrphotodemo.data.models.Photo;
 import net.joelreeves.flickrphotodemo.data.models.PhotoResponse;
@@ -11,7 +12,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FlickrPhotoRepository {
+public class PhotoRepository {
 
     public interface PhotoRepositoryListener {
         void onSuccess();
@@ -29,13 +30,20 @@ public class FlickrPhotoRepository {
     private ArrayList<Photo> photoList;
     private PhotoRepositoryListener photoRepositoryListener;
 
-    public FlickrPhotoRepository(FlickrService flickrService) {
+    public PhotoRepository(FlickrService flickrService) {
         this.flickrService = flickrService;
         photoList = new ArrayList<>();
     }
 
     public void getRecentPhotos() {
         flickrService.getRecentPhotos(API_REQUEST, API_KEY, API_FORMAT, API_JSON_CALLBACK, API_EXTRAS).enqueue(recentPhotoCallback);
+    }
+
+    @VisibleForTesting
+    public Call<PhotoResponse> getPhotoResponse() {
+        Call<PhotoResponse> responseCall = flickrService.getRecentPhotos(API_REQUEST, API_KEY, API_FORMAT, API_JSON_CALLBACK, API_EXTRAS);
+        responseCall.enqueue(recentPhotoCallback);
+        return responseCall;
     }
 
     public ArrayList<Photo> getPhotoList() {

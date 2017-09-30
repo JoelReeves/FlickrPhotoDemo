@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
-import net.joelreeves.flickrphotodemo.data.services.FlickrPhotoRepository;
+import net.joelreeves.flickrphotodemo.data.services.PhotoRepository;
 import net.joelreeves.flickrphotodemo.data.services.FlickrService;
 
 import javax.inject.Singleton;
@@ -32,8 +32,8 @@ public class AndroidModule {
     }
 
     @Provides @NonNull @Singleton
-    public FlickrPhotoRepository providePersonRepository(@NonNull FlickrService flickrService) {
-        return new FlickrPhotoRepository(flickrService);
+    public PhotoRepository providePersonRepository(@NonNull FlickrService flickrService) {
+        return new PhotoRepository(flickrService);
     }
 
     @Provides @NonNull @Singleton

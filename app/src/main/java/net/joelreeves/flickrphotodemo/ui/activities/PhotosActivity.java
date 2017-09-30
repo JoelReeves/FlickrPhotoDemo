@@ -24,7 +24,7 @@ import net.joelreeves.flickrphotodemo.core.FlickrDemoApplication;
 import net.joelreeves.flickrphotodemo.data.models.Photo;
 import net.joelreeves.flickrphotodemo.data.preferences.BooleanPreference;
 import net.joelreeves.flickrphotodemo.data.preferences.qualifiers.ViewPreference;
-import net.joelreeves.flickrphotodemo.data.services.FlickrPhotoRepository;
+import net.joelreeves.flickrphotodemo.data.services.PhotoRepository;
 import net.joelreeves.flickrphotodemo.ui.adapters.PhotoAdapter;
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ import static net.joelreeves.flickrphotodemo.utils.NetworkUtils.networkIsAvailab
 
 public class PhotosActivity extends AppCompatActivity {
 
-    @Inject FlickrPhotoRepository flickrPhotoRepository;
+    @Inject PhotoRepository photoRepository;
     @Inject @ViewPreference BooleanPreference viewPreference;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -59,7 +59,7 @@ public class PhotosActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-        flickrPhotoRepository.setPhotoRepositoryListener(photoRepositoryListener);
+        photoRepository.setPhotoRepositoryListener(photoRepositoryListener);
 
         initUI();
     }
@@ -71,7 +71,7 @@ public class PhotosActivity extends AppCompatActivity {
         if (menu != null) {
             MenuItem menuItem = menu.findItem(R.id.action_show_preference);
             if (menuItem != null) {
-                menuItem.setVisible(!flickrPhotoRepository.isEmpty());
+                menuItem.setVisible(!photoRepository.isEmpty());
                 setMenuTitleText();
                 menuItem.setTitle(menuTitleText);
             }
@@ -98,7 +98,7 @@ public class PhotosActivity extends AppCompatActivity {
         if (!networkIsAvailable(this)) {
             showErrorSnackbar(R.string.network_error_no_network_connection, R.string.button_retry, photoErrorClickListener);
         } else {
-            flickrPhotoRepository.getRecentPhotos();
+            photoRepository.getRecentPhotos();
         }
     }
 
@@ -111,10 +111,10 @@ public class PhotosActivity extends AppCompatActivity {
         }
         recyclerView.setHasFixedSize(true);
 
-        if (flickrPhotoRepository.isEmpty()) {
+        if (photoRepository.isEmpty()) {
             getRecentPhotos();
         } else {
-            photoList = flickrPhotoRepository.getPhotoList();
+            photoList = photoRepository.getPhotoList();
             populateRecyclerView();
         }
     }
@@ -158,10 +158,10 @@ public class PhotosActivity extends AppCompatActivity {
         }
     };
 
-    private final FlickrPhotoRepository.PhotoRepositoryListener photoRepositoryListener = new FlickrPhotoRepository.PhotoRepositoryListener() {
+    private final PhotoRepository.PhotoRepositoryListener photoRepositoryListener = new PhotoRepository.PhotoRepositoryListener() {
         @Override
         public void onSuccess() {
-            photoList = flickrPhotoRepository.getPhotoList();
+            photoList = photoRepository.getPhotoList();
             invalidateOptionsMenu();
             Timber.d("Number of photos returned: %d", photoList.size());
             populateRecyclerView();
